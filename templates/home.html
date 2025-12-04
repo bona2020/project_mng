@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title {
+            color: white;
+        }
+
+        .header-title h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-title p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1em;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .create-btn:active {
+            transform: translateY(0);
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            position: relative;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-id-time {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .project-id {
+            font-size: 0.75em;
+            color: #667eea;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid #667eea;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .created-time {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            font-style: italic;
+            border: 2px solid #7f8c8d;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border: 2px solid;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .status-dropdown {
+            padding: 6px 10px;
+            border: 2px solid;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            background-color: white;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .status-dropdown:hover {
+            transform: scale(1.05);
+        }
+
+        .status-dropdown:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .status-dropdown.delivered {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .status-dropdown.in-progress {
+            border-color: #f39c12;
+            color: #f39c12;
+        }
+
+        .status-dropdown.pending {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .project-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #222;
+            margin: 0;
+        }
+
+        .project-description {
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.5;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .card-details {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-label {
+            font-size: 0.8em;
+            color: #999;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .budget {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .duration {
+            font-size: 1em;
+            font-weight: 600;
+            color: #2980b9;
+        }
+
+        .card-footer {
+            padding: 15px 20px;
+            border-top: 2px solid #f0f0f0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 1;
+        }
+
+        .btn-update {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-update:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        .greeting {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .greeting-emoji {
+            font-size: 1.3em;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-title h1 {
+                font-size: 1.8em;
+            }
+
+            .projects-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .card-details {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="greeting">
+        <span class="greeting-emoji">👋</span>
+        <span>Hi Ali!</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <h1>📊 Project Management Dashboard</h1>
+                <p>Track and manage all your projects in one place</p>
+            </div>
+            <a href="/create" class="create-btn">+ Create New Project</a>
+        </div>
+
+<!-------------------------------------------------  CARDS               ------------------>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="card-id-time">
+                        <span class="project-id">ID: 001</span>
+                        <span class="created-time">📅 Dec 5, 2025</span>
+                    </div>
+                    <select class="status-dropdown in-progress" onchange="updateStatus('001', this.value)">
+                        <option value="in-progress" selected>In-Progress</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="project-name">Website Redesign</h3>
+                    <p class="project-description">Complete redesign of company website with modern UI/UX, responsive
+                        design, and improved performance.</p>
+
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Budget</span>
+                            <span class="budget">$5,000</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Duration</span>
+                            <span class="duration">45 days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn btn-update">Update</button>
+                    <button class="btn btn-delete">Delete</button>
+                </div>
+            </div>
+<!-------------------------------------------------  CARDS               ------------------>
+            <!-- <div class="project-card">
+                <div class="card-header">
+                    <div class="card-id-time">
+                        <span class="project-id">ID: 002</span>
+                        <span class="created-time">📅 Dec 1, 2025</span>
+                    </div>
+                    <select class="status-dropdown delivered" onchange="updateStatus('002', this.value)">
+                        <option value="delivered" selected>Delivered</option>
+                        <option value="in-progress">In-Progress</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="project-name">Mobile App Development</h3>
+                    <p class="project-description">Native iOS and Android mobile application with real-time data
+                        synchronization and offline support.</p>
+
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Budget</span>
+                            <span class="budget">$12,000</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Duration</span>
+                            <span class="duration">60 days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn btn-update">Update</button>
+                    <button class="btn btn-delete">Delete</button>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="card-id-time">
+                        <span class="project-id">ID: 003</span>
+                        <span class="created-time">📅 Nov 28, 2025</span>
+                    </div>
+                    <select class="status-dropdown pending" onchange="updateStatus('003', this.value)">
+                        <option value="pending" selected>Pending</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="in-progress">In-Progress</option>
+                    </select>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="project-name">API Integration</h3>
+                    <p class="project-description">Integration of third-party payment gateway and analytics platform
+                        with existing systems.</p>
+
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Budget</span>
+                            <span class="budget">$3,500</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Duration</span>
+                            <span class="duration">15 days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn btn-update">Update</button>
+                    <button class="btn btn-delete">Delete</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <script>
+        function updateStatus(projectId, newStatus) {
+            console.log(`Project ${projectId} status updated to: ${newStatus}`);
+
+            // Update the dropdown styling based on status
+            const dropdown = event.target;
+            dropdown.className = `status-dropdown ${newStatus}`;
+
+            // Replace with your update endpoint
+            /*
+            fetch(`/update-status/${projectId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Status updated:', data))
+            .catch(error => console.error('Error:', error));
+            */
+        }
+
+        function updateProject(projectId) {
+            console.log(`Updating project: ${projectId}`);
+            // Replace with your update endpoint
+            window.location.href = `/update/${projectId}`;
+        }
+
+        function deleteProject(projectId) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                console.log(`Deleting project: ${projectId}`);
+                // Replace with your delete endpoint
+                fetch(`/delete/${projectId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Project deleted:', data);
+                        location.reload();
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+
+</html>

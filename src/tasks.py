@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from utils import database_url ,api_key
+from utils import db
 
 
 router = APIRouter(tags=['Tasks'])
