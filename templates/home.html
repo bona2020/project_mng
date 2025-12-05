@@ -13,70 +13,140 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
-        .header {
+        .greeting {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #667eea;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 50px;
-            flex-wrap: wrap;
-            gap: 20px;
+            gap: 10px;
+            z-index: 100;
+            animation: slideInRight 0.5s ease-out;
         }
 
-        .header-title {
-            color: white;
+        .greeting-emoji {
+            font-size: 1.3em;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .header {
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .header-title h1 {
-            font-size: 2.5em;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
         .header-title p {
-            font-size: 1.1em;
-            opacity: 0.9;
+            font-size: 1em;
+            color: #718096;
+            margin-bottom: 30px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         .create-btn {
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 14px 32px;
-            font-size: 1em;
+            padding: 12px 28px;
+            font-size: 0.95em;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
             text-decoration: none;
             display: inline-block;
         }
 
         .create-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
         .create-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .projects-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-            animation: slideUp 0.5s ease-out;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        .project-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .project-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .project-card:nth-child(3) {
+            animation-delay: 0.3s;
         }
 
         @keyframes slideUp {
@@ -91,30 +161,25 @@
             }
         }
 
-        .project-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
         .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            border-color: #cbd5e0;
         }
 
         .card-header {
-            position: relative;
             padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-bottom: 2px solid #e9ecef;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            gap: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .project-card:hover .card-header {
+            background: #f1f3f6;
         }
 
         .card-id-time {
@@ -124,60 +189,51 @@
         }
 
         .project-id {
-            font-size: 0.75em;
+            font-size: 0.7em;
             color: #667eea;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px solid #667eea;
-            padding: 6px 12px;
+            letter-spacing: 1.5px;
+            border: 1px solid #667eea;
+            padding: 5px 10px;
             border-radius: 4px;
             display: inline-block;
+            background: #f0f4ff;
+            transition: all 0.3s ease;
         }
 
         .created-time {
-            font-size: 0.8em;
-            color: #7f8c8d;
-            font-style: italic;
-            border: 2px solid #7f8c8d;
-            padding: 6px 12px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
-        .status-badge {
-            padding: 6px 14px;
-            border: 2px solid;
-            border-radius: 4px;
             font-size: 0.75em;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
+            color: #718096;
+            border: 1px solid #cbd5e0;
+            padding: 5px 10px;
+            border-radius: 4px;
             display: inline-block;
+            background: #f7fafc;
+            transition: all 0.3s ease;
         }
 
         .status-dropdown {
-            padding: 6px 10px;
-            border: 2px solid;
-            border-radius: 4px;
-            font-size: 0.75em;
+            padding: 6px 12px;
+            border: 1.5px solid;
+            border-radius: 6px;
+            font-size: 0.7em;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             cursor: pointer;
             background-color: white;
-            transition: all 0.3s ease;
-            min-width: 120px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 110px;
         }
 
         .status-dropdown:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .status-dropdown:focus {
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .status-dropdown.delivered {
@@ -196,24 +252,29 @@
         }
 
         .card-body {
-            padding: 25px;
+            padding: 24px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
         }
 
         .project-name {
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: 600;
-            color: #222;
+            color: #1a202c;
             margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .project-card:hover .project-name {
+            color: #667eea;
         }
 
         .project-description {
-            font-size: 0.95em;
-            color: #555;
-            line-height: 1.5;
+            font-size: 0.9em;
+            color: #4a5568;
+            line-height: 1.6;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -224,21 +285,22 @@
 
         .card-details {
             display: flex;
-            gap: 20px;
+            gap: 18px;
             flex-wrap: wrap;
-            border-top: 1px solid #f0f0f0;
-            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 14px;
+            margin-top: 6px;
         }
 
         .detail-item {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .detail-label {
-            font-size: 0.8em;
-            color: #999;
+            font-size: 0.7em;
+            color: #a0aec0;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -257,21 +319,26 @@
         }
 
         .card-footer {
-            padding: 15px 20px;
-            border-top: 2px solid #f0f0f0;
+            padding: 16px;
+            border-top: 1px solid #e2e8f0;
             display: flex;
-            gap: 10px;
-            justify-content: center;
+            gap: 8px;
+            background: #fafbfc;
+            transition: background 0.3s ease;
+        }
+
+        .project-card:hover .card-footer {
+            background: #f1f3f6;
         }
 
         .btn {
-            padding: 8px 16px;
+            padding: 8px 14px;
             border: none;
             border-radius: 6px;
-            font-size: 0.9em;
+            font-size: 0.8em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             flex: 1;
@@ -285,6 +352,7 @@
         .btn-update:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
 
         .btn-delete {
@@ -295,57 +363,39 @@
         .btn-delete:hover {
             background-color: #c0392b;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
         }
 
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 80px 20px;
-            color: #999;
+            padding: 60px 20px;
+            color: #a0aec0;
         }
 
         .empty-state p {
-            font-size: 1.3em;
-            margin-bottom: 20px;
-        }
-
-        .greeting {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #667eea;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .greeting-emoji {
-            font-size: 1.3em;
+            font-size: 1.2em;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
             .header-title h1 {
                 font-size: 1.8em;
             }
 
             .projects-container {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 16px;
+            }
+
+            .greeting {
+                position: static;
+                margin-bottom: 20px;
+                justify-content: center;
             }
 
             .card-details {
-                gap: 10px;
+                gap: 12px;
             }
         }
     </style>
@@ -354,19 +404,21 @@
 <body>
     <div class="greeting">
         <span class="greeting-emoji">👋</span>
-        <span>Hi Ali!</span>
+        <span>Welcome Ali!</span>
     </div>
 
     <div class="container">
         <div class="header">
             <div class="header-title">
-                <h1>📊 Project Management Dashboard</h1>
-                <p>Track and manage all your projects in one place</p>
+                <h1>Projects</h1>
+                <p>Manage and track all your projects effortlessly</p>
             </div>
-            <a href="/create" class="create-btn">+ Create New Project</a>
+            <div class="header-actions">
+                <a href="/create" class="create-btn">+ New Project</a>
+            </div>
         </div>
 
-<!-------------------------------------------------  CARDS               ------------------>
+        <!-------------------------------------------------  CARDS               ------------------>
         <div class="projects-container">
             <div class="project-card">
                 <div class="card-header">
@@ -403,7 +455,7 @@
                     <button class="btn btn-delete">Delete</button>
                 </div>
             </div>
-<!-------------------------------------------------  CARDS               ------------------>
+            <!-------------------------------------------------  CARDS               ------------------>
             <!-- <div class="project-card">
                 <div class="card-header">
                     <div class="card-id-time">
@@ -473,9 +525,9 @@
                 <div class="card-footer">
                     <button class="btn btn-update">Update</button>
                     <button class="btn btn-delete">Delete</button> -->
-                </div>
-            </div>
         </div>
+    </div>
+    </div>
     </div>
 
     </div>
